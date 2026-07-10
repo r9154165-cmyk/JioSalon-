@@ -1,28 +1,26 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
       colors: {
-        // Cherry Cola — primary dark tones (cards, buttons, header backgrounds)
         cola: {
           950: "#2C0A0F",
-          800: "#5C1620", // primary brand color
+          800: "#5C1620",
           700: "#701B27",
           600: "#7E1E2A",
           500: "#9A2A37",
         },
-        // Cream Vanilla — light backgrounds, text-on-dark
         vanilla: {
-          50: "#FBF6EC",  // lightest, page backgrounds
-          100: "#F5EBD6", // cards on light pages
-          200: "#EDDFC0", // borders / dividers
+          50: "#FBF6EC",
+          100: "#F5EBD6",
+          200: "#EDDFC0",
         },
-        // Gold accent — CTAs, highlights, active states
         gold: {
           DEFAULT: "#C9A24B",
           dark: "#B58A38",
