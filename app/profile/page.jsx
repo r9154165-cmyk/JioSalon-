@@ -20,7 +20,7 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-vanilla-50 pb-24 px-6 pt-10">
       <p className="text-xs uppercase tracking-widest text-gold-dark mb-1">Profile</p>
-      <h1 className="font-display text-2xl text-cola-800 mb-6">{user.phoneNumber}</h1>
+      <h1 className="font-display text-2xl text-cola-800 mb-6">{user.email}</h1>
 
       <button
         onClick={() => signOut(auth)}
