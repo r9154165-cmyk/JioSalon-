@@ -2,12 +2,15 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
+    // Stores each user's role (customer/partner), set at signup.
+    match /users/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+
     match /salons/{salonId} {
       allow read: if true;
       allow create: if request.auth != null;
 
-      // Owner can edit anything. Any signed-in user can update JUST the
-      // rating fields (needed so submitting a review can refresh the average).
       allow update: if request.auth != null && (
         request.auth.uid == resource.data.ownerId ||
         request.resource.data.diff(resource.data).affectedKeys().hasOnly(['avgRating', 'reviewCount'])
@@ -21,8 +24,6 @@ service cloud.firestore {
           request.auth.uid == resource.data.customerId ||
           request.auth.uid == get(/databases/$(database)/documents/salons/$(salonId)).data.ownerId
         );
-        // Owner can update status (Start/Done). Customer can update only
-        // to attach their own rating after a review.
         allow update: if request.auth != null && (
           request.auth.uid == get(/databases/$(database)/documents/salons/$(salonId)).data.ownerId ||
           (request.auth.uid == resource.data.customerId &&
@@ -37,16 +38,12 @@ service cloud.firestore {
       }
     }
 
-    // Simple in-app notifications. Any signed-in user can create one for
-    // someone else (e.g. a partner notifying a customer) — tighten this
-    // later with a Cloud Function if abuse becomes a concern.
     match /notifications/{notifId} {
       allow read, update: if request.auth != null && request.auth.uid == resource.data.recipientId;
       allow create: if request.auth != null;
       allow delete: if false;
     }
 
-    // Ad banners — managed manually via the Firebase Console, not from the app.
     match /ads/{adId} {
       allow read: if true;
       allow write: if false;
