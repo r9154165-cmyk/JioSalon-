@@ -63,7 +63,7 @@ export default function SalonPage() {
     try {
       await addDoc(collection(db, "salons", id, "queue"), {
         customerId: user.uid,
-        customerName: user.phoneNumber || "Guest",
+        customerName: user.email || "Guest",
         salonName: salon.name,
         status: "waiting",
         joinedAt: serverTimestamp(),
@@ -72,7 +72,7 @@ export default function SalonPage() {
       if (salon.ownerId) {
         await addDoc(collection(db, "notifications"), {
           recipientId: salon.ownerId,
-          message: `${user.phoneNumber || "A customer"} joined the queue at ${salon.name}`,
+          message: `${user.email || "A customer"} joined the queue at ${salon.name}`,
           read: false,
           createdAt: serverTimestamp(),
         });
